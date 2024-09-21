@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="saad.css" />
+</head>
+<body>
+    <div class="container">
+        <p>Enter a URL</p>
+        <input type="text" placeholder="https://example.com" id="qrtext"> 
+        <span id="error-message"></span>
+        <div id="imgbox">
+            <img src="" alt="" id="qrimage">
+        </div>
+        <button id="generate-btn">Generate QR code</button>
+    </div>
+
+    <script>
+        const imgBox = document.getElementById("imgbox");
+        const qrImage = document.getElementById("qrimage");
+        const qrText = document.getElementById("qrtext");
+        const errorMessage = document.getElementById("error-message");
+        const generateBtn = document.getElementById("generate-btn");
+
+        generateBtn.addEventListener("click", generateQr);
+
+        function generateQr() {
+            const urlRegex = /^(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]$/;
+            if (urlRegex.test(qrText.value.trim())) {
+                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrText.value}`;
+                imgBox.classList.add("show-img");
+            } else {
+                errorMessage.textContent = "Please enter a valid URL";
+                errorMessage.style.color = "red";
+                setTimeout(() => {
+                    errorMessage.textContent = "";
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
